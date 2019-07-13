@@ -73,11 +73,11 @@ public class PersonDaoMySql implements iPersonDao
 	}
 
 	@Override
-	public void delete(Person p) throws SQLException 
+	public void delete(int id) throws SQLException
 	{
 		  Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
 		  Statement stmt = conn.createStatement();
-		  String query = "DELETE FROM "+ Constant.TABLE_NAME+ " WHERE ID = "+p.id;
+		  String query = "DELETE FROM "+ Constant.TABLE_NAME+ " WHERE ID = "+id;
 		  int  rs = stmt.executeUpdate(query);
 		  stmt.close();
 		  conn.close();	 	
