@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<meta charset="utf-8">
+
+<body bgcolor=rgb(23,33,43);>
+    <style type="text/css">
+        BODY {
+            margin-bottom: 50px;
+        }
+
+        table {
+            width: 45%; /* Ширина таблицы */
+            height: 250px; /* Высота таблицы */   
+            border-collapse: collapse;
+            background:rgb(23,33,43); /* Цвет фона таблицы */
+            color: rgb(78,128,174); /* Цвет текста */
+            /* Отображать двойные линии как одинарные */
+        }
+
+        th {
+            background: #252526;
+            /* Цвет фона */
+            text-align: center;
+        }
+
+        td {
+            text-align: center; /* Выравнивание по центру */
+        }
+
+        td,
+        th {
+            border: 1px solid rgb(78,128,174);
+            /* Параметры границы */
+            padding: 4px;
+            /* Поля в ячейках */
+        }
+
+        #footer {
+            position: fixed;
+            /* Фиксированное положение */
+            left: 0;
+            bottom: 0;
+            /* Левый нижний угол */
+            padding: 10px;
+            /* Поля вокруг текста */
+            background: rgb(23, 33, 43);
+            /* Цвет фона */
+            color: rgb(78, 128, 174);
+            /* Цвет текста */
+            width: 100%;
+            /* Ширина слоя */
+        }
+    </style>
+
+    <form id="form1">
+    </form>
+
+
+    <div id="footer">&copy; HN Haitanov Nikita </div>
+
+
+
+    <script type="text/javascript">
+
+        class Home {
+
+            personsStr = "";
+
+            constructor(view) {
+                this.initChatUpdates();
+                this.personsStr = this.updateChat();
+                view.innerHTML = this.createTable(this.personsStr);
+
+            }
+
+            createTable(personsStr) {
+
+                let arrayPersons = this.personsStr.split("\n");
+                // alert("arrayPersons\n"
+                //     + arrayPersons[0] + '\n'
+                //     + arrayPersons[1] + '\n'
+                //     + arrayPersons[2] + '\n'
+                //     + arrayPersons[3] + '\n'
+                //     + 'arrayPersons.length = ' + arrayPersons.length
+                // );
+                var column = arrayPersons.length - 1;
+                var row = 4;
+                let person = "";
+                var resultTable = '<table align="center";  bordercolor:rgb(23,33,43); bgcolor:rgb(78,128,174);>';
+                resultTable += '<colgroup span="4"; style="background-color:#fff"></colgroup>'                  
+                            + '<tr>'
+                                + '<th >ID</th>'
+                                + '<th>Name</th>'
+                                + '<th>LastName</th>'
+                                + '<th>age</th>'
+                            + '</tr>';
+               
+                for (var i = 0; i < parseInt(column); i++) {
+                    resultTable += '<tr>';
+                    person = arrayPersons[i].split(" ");
+                    
+                    for (var j = 0; j < parseInt(row); j++) {
+                        resultTable +=
+                            '<td>'
+                            + person[j]
+                            + '<\/td>';
+                    }
+                    resultTable += '<\/tr>';
+                }
+                resultTable += '<\/table';
+                return resultTable;
+            }
+
+            updateChat() {
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', 'http://192.168.1.100:1080/api/get-client/', false);
+                xhr.send();
+
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                } else {
+                    this.personsStr = xhr.responseText;
+                    return this.personsStr;
+                }
+            }
+
+            initChatUpdates() {
+                setInterval(() => { this.updateChat(); }, 10000);
+            }
+
+
+        }
+
+        new Home(document.getElementById("form1"));
+
+
+    </script>
+
+</body>
+
+</html>
