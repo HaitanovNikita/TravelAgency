@@ -67,22 +67,6 @@ public class Server {
             os.close();
         }
 
-        /*private void validateCheckClient(String[] authenticationData,HttpExchange exchange) throws IOException {
-            //Если в чате не авторизированный
-            if(mapLoginDetails.get(authenticationData[0])==null){
-                System.out.println("Злоумышленик");
-                String unauthorized401 = "401 - Unauthorized";
-                Server.addCors(exchange);
-                exchange.sendResponseHeaders(401, unauthorized401.getBytes().length);
-                OutputStream os = exchange.getResponseBody();
-                os.write(unauthorized401.getBytes());
-                os.close();
-                return;
-            }else {
-                System.out.println("Все нормально");
-            }
-        }*/
-
         private Person splitArrayIntoPerson(String[] arrDataPerson){
 
             int id = Integer.valueOf(arrDataPerson[1]);
@@ -97,7 +81,7 @@ public class Server {
             switch(operation){
                 case "delete":
                     try{
-                        personDaoMySql.delete(person);
+                        personDaoMySql.delete(person.id);
                         System.out.println("operation: delete, person: "+person.toString());
                     } catch (SQLException e) {e.printStackTrace();}
                     break;

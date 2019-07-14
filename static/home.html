@@ -74,11 +74,7 @@
     </style>
 
     <form id="form1">
-
-        <input id="" ; type="button" ; value="Registry" ;
-            style="font-size: large; position: absolute; top:350px; left:520px; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
-            ;>
-
+        
 
     </form>
 
@@ -92,16 +88,24 @@
         class Home {
 
             personsStr = "";
+            operation = "";
+
 
             constructor(view) {
-                this.initChatUpdates();
-                this.personsStr = this.updateChat();
-                view.innerHTML =  this.createTable(this.personsStr);
-                view.innerHTML += this.windowForPersonTransactions('Update');
+
+                this.initTableUpdates();
+                this.personsStr = this.updateTable();
+                view.innerHTML = this.commandButtons();
+                view.innerHTML += this.addTable();
+                view.innerHTML += this.windowForPersonTransactions();
+                view.innerHTML+= `<b style="  top:1%; left:12%;">Username:`+localStorage.getItem("userName")+`</b>`;
+                this.form = view.innerHTML;
+                document.getElementById("FillingPersonForm").style.display = "none";
+                this.onClickForButton();
 
             }
 
-            updateChat() {
+            updateTable() {
 
                 var xhr = new XMLHttpRequest();
 
@@ -112,52 +116,160 @@
                     alert(xhr.status + ': ' + xhr.statusText);
                 } else {
                     this.personsStr = xhr.responseText;
+
+                    this.addTable(this.personsStr);
                     return this.personsStr;
                 }
             }
 
-            initChatUpdates() {
-                setInterval(() => { this.updateChat(); }, 10000);
+            initTableUpdates() {
+                setInterval(() => { this.updateTable(); }, 3000);
             }
 
-            createTable(personsStr) {
+            onClickForButton() {
+                let op = "";
 
-                let arrayPersons = this.personsStr.split("\n");
+                let saveBtn = document.getElementById("save");
+                let cancelBtn = document.getElementById("cancel");
+                let clearBtn = document.getElementById("clear");
 
-                let column = arrayPersons.length - 1;
-                let row = 4;
-                let person = "";
+                let createBtn = document.getElementById("create");
+                let updateBtn = document.getElementById("update");
+                let deleteBtn = document.getElementById("delete");
+                let readBtn = document.getElementById("read");
+                let lockBtn = document.getElementById("lock");
 
-                var resultTable = '<table align="center";  bordercolor:rgb(23,33,43); bgcolor:rgb(78,128,174);>';
-                resultTable += '<colgroup span="4"; style="background-color:#fff"></colgroup>'
-                    + '<tr>'
-                    + '<th >ID</th>'
-                    + '<th>Name</th>'
-                    + '<th>LastName</th>'
-                    + '<th>age</th>'
-                    + '</tr>';
+                saveBtn.addEventListener("click", function () {
 
-                for (var i = 0; i < parseInt(column); i++) {
-                    resultTable += '<tr>';
-                    person = arrayPersons[i].split(" ");
+                    let id = document.getElementById("ID").value;
+                    let fname = document.getElementById("fname").value;
+                    let lname = document.getElementById("lname").value;
+                    let age = document.getElementById("age").value;
 
-                    for (var j = 0; j < parseInt(row); j++) {
-                        resultTable +=
-                            '<td>'
-                            + person[j]
-                            + '<\/td>';
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'http://192.168.1.100:1080/api/post-client/?id=' + id + '&fname=' + fname + '&lname=' + lname + '&age=' + age + '&operation=' + op, false);
+                    xhr.send();
+
+                    if (xhr.status != 200) { alert(xhr.status + ': ' + xhr.statusText); }
+                    this.updateTable();
+                    this.clearInputFields();
+                });
+                cancelBtn.addEventListener("click", function () {
+                    document.getElementById("FillingPersonForm").style.display = "none";
+                    this.clearInputFields();
+                });
+                clearBtn.addEventListener("click", function () {
+                    this.clearInputFields();
+                });
+
+                createBtn.addEventListener("click", function () {
+                    op = this.id;
+                    document.getElementById("FillingPersonForm").style.display = "";
+
+                });
+
+                updateBtn.addEventListener("click", function () {
+                    op = this.id;
+                    document.getElementById("FillingPersonForm").style.display = "";
+                });
+
+                deleteBtn.addEventListener("click", function () {
+                    op = this.id;
+                    document.getElementById("FillingPersonForm").style.display = "";
+                });
+
+                readBtn.addEventListener("click", function () {
+                    updateTable();
+                });
+
+                lockBtn.addEventListener("click", function () {
+                    //написать метод для всплывающего окна с вводом логина и пароля
+                });
+            }
+
+            clearInputFields() {
+                document.getElementById("ID").value = '';
+                document.getElementById("fname").value = '';
+                document.getElementById("lname").value = '';
+                document.getElementById("age").value = '';
+            }
+
+            addTable(arrPersonsStr) {
+              
+                if (arrPersonsStr != undefined) {
+                    var arrayPersons = arrPersonsStr.split('\n');
+                    var body = document.querySelector("body"),
+
+                        rows = arrayPersons.length - 1,
+                        columns = 4,
+                        tr = "",
+                        td = "",
+                        firstTable = document.querySelector("table");
+
+                    let table = document.createElement("table"),
+
+                        resultTable = '<table id="table"; align="center";  bordercolor:rgb(23,33,43); bgcolor:rgb(78,128,174);>'
+                            + '<colgroup span="4"; style="background-color:#fff"></colgroup>'
+                            + '<tr>'
+                            + '<th >ID</th>'
+                            + '<th>Name</th>'
+                            + '<th>LastName</th>'
+                            + '<th>age</th>'
+                            + '</tr>';
+
+                    table.innerHTML = resultTable;
+                    table.setAttribute("id", "table");
+                    table.setAttribute("align", "center");
+                    table.setAttribute("bordercolor", "#17212b");
+                    table.setAttribute("bgcolor", "#4e80ae");
+                    table.setAttribute("width", "50%");
+                    table.setAttribute("width", columns);
+                    table.setAttribute("height", rows);
+
+
+                    for (var i = 0; i < rows; i++) {
+
+                        tr = document.createElement("tr");
+                        let person = arrayPersons[i].split(" ");
+
+                        for (var j = 0; j < columns; j++) {
+                            td = document.createElement("td");
+                            let text = document.createTextNode(person[j]);
+                            td.appendChild(text);
+                            tr.appendChild(td);
+                        }
+                        table.appendChild(tr);
                     }
-                    resultTable += '<\/tr>';
+
+                    if (firstTable == null) {
+                        return body.appendChild(table);
+                    } else {
+                        var newTable = body.appendChild(table);
+                        return document.body.replaceChild(newTable, firstTable);
+                    }
                 }
-                resultTable += '<\/table';
-                return resultTable;
+                else {
+
+                }
+
+
             }
 
-            windowForPersonTransactions(operation) {
+            destroyTable() {
+                var body = document.querySelector("body"),
+                    table = document.querySelector("table");
+
+                if (document.querySelector("table") != null) {
+                    document.body.removeChild(table);
+
+                }
+            }
+
+            windowForPersonTransactions() {
                 let windowForPersonTransactions =
                     `<div id="FillingPersonForm"
                         style="position: absolute;top:90px; left:15px; width:350px; height:450px; background:rgb(23,33,43);">
-                        <b style="  top:1%; left:37%; text-decoration: underline">`+ operation + ` person</b>
+                        <b style="  top:1%; left:25%; text-decoration: underline">Operation about person</b>
                         <b style="  top:10%; left:10%;">Fill in the person's data for which you need to perform the operation.</b>
                         <b style="  top:24%; left:5%;">ID</b>
                         <div style="position: relative; left:12%; width:290px; height: 40px; top:22%; ">
@@ -195,6 +307,30 @@
                 return windowForPersonTransactions;
             }
 
+            commandButtons() {
+                let commandBtns = ` <div style="position: absolute; left:80%; width:165px; height: 310px; top:17%; ">
+
+                <input id="create" ; type="button" ; value="Create" ;
+                    style="font-size: large; position: absolute; top:10px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>
+                <input id="update" ; type="button" ; value="Update" ;
+                    style="font-size: large; position: absolute; top:70px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>
+
+                <input id="delete" ; type="button" ; value="Delete" ;
+                    style="font-size: large; position: absolute; top:130px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>
+
+                <input id="read" ; type="button" ; value="Read" ;
+                    style="font-size: large; position: absolute; top:190px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>
+
+                <input id="lock" ; type="button" ; value="Lock" ;
+                    style="font-size: large; position: absolute; top:250px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>
+                </div>`
+                return commandBtns;
+            }
         }
 
         new Home(document.getElementById("form1"));
