@@ -183,19 +183,24 @@ public class Server {
                     + "getRequestHeaders() User-Agent: " + exchange.getRequestHeaders().get("User-Agent") + "\n"
             );
             System.out.println("Key: " + exchange.getRequestHeaders().get("Key"));
-
             String query = exchange.getRequestURI().getQuery();
 
             if (query != null) {
-                String[] arrQuery = query.split("&password=|login=|&id=");
-                String id = arrQuery[3];
-                login = arrQuery[1];
-                password = arrQuery[2];
+                String[] arrQuery = query.contains("password")==true?query.split("&password=|login=|&id="):query.split("operation=");
+                String id = "";
+                System.out.println("ArrQuery: " + Arrays.toString(arrQuery));
+                if (arrQuery.length > 2) {
+                    id = arrQuery[3];
+                    login = arrQuery[1];
+                    password = arrQuery[2];
+                } else {
+                    id = arrQuery[1];
+                }
                 uniqueKey = exchange.getRequestHeaders().get("Key").toString();
-                System.out.println("Registration data: " + id + " " + login + " " + password);
+                System.out.println("Registration data: login: " + login + " pass: " + password + " key: " + uniqueKey + " id: " + id);
+//                System.out.println("Registration data: " + id + " " + login + " " + password);
                 checkID(id);
             }
-
 
             System.out.println("answer about login: " + answer);
             Server.addCors(exchange);
@@ -212,7 +217,8 @@ public class Server {
             }
             if (mapLoginDetails.get(login) != null) {
                 String[] arr = mapLoginDetails.get(login).split("login:| password:");//данные из хранилища
-                if (login.equals(arr[1]) && password.equals(arr[2])) {
+                if (login.equals(arr[1]) && password.equals(arr[2]) && arrayListUniqueKeys.contains(uniqueKey) == false) {
+                    arrayListUniqueKeys.add(uniqueKey);
                     answer = "login successful";
                 } else {
                     answer = "Wrong login or password";
@@ -234,6 +240,15 @@ public class Server {
             System.out.println(answer);
         }
 
+        private void logOut(){
+            if(arrayListUniqueKeys.contains(uniqueKey)==true){
+                arrayListUniqueKeys.remove(uniqueKey);
+                answer="logout was successful";
+            }else{
+                answer="logout is not possible since you are not registered to the registration page !!!";
+            }
+        }
+
         private void checkID(String id) {
             switch (id) {
                 case "registration":
@@ -241,6 +256,9 @@ public class Server {
                     break;
                 case "logIn":
                     logIn();
+                    break;
+                case "LogOut":
+                    logOut();
                     break;
                 default:
                     System.out.println("ID - not found!");

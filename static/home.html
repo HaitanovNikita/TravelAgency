@@ -85,7 +85,7 @@
     <script type="text/javascript">
 
         class Home {
-
+            linkToHomePage = 'http://192.168.1.100:1080';
             personsStr = "";
             timerId = setTimeout(() => { console.log('Прошло 5 минут бездействия!(1)'); this.plannedEntryData(); }, 300000);
             uniqueKey = localStorage.getItem("unqk");
@@ -106,11 +106,15 @@
 
             }
 
+            initTableUpdates() {
+                setInterval(() => { this.updateTable(); }, 3000);
+            }
+
             updateTable() {
 
                 var xhr = new XMLHttpRequest();
 
-                xhr.open('GET', 'http://192.168.1.100:1080/api/get-client/', false);
+                xhr.open('GET', this.linkToHomePage + '/api/get-client/', false);
                 xhr.send();
 
                 if (xhr.status != 200) {
@@ -121,10 +125,6 @@
                     this.addTable(this.personsStr);
                     return this.personsStr;
                 }
-            }
-
-            initTableUpdates() {
-                setInterval(() => { this.updateTable(); }, 3000);
             }
 
             saveData() {
@@ -146,6 +146,8 @@
                 let readBtn = document.getElementById("read");
                 let lockBtn = document.getElementById("lock");
 
+                let logoutBtn = document.getElementById("logout");
+
                 saveBtn.addEventListener("click", () => {
 
                     let question = confirm("Are you sure you want to " + op + " this person?");
@@ -162,7 +164,7 @@
 
                         if (xhr.status == 403) {
                             alert('Unregistered user, to the registration page!');
-                            location.href = 'http://192.168.1.100:1080';
+                            location.href = this.linkToHomePage;
                         }
                         else if (xhr.status != 200) { alert(xhr.status + ': ' + xhr.statusText); }
 
@@ -202,6 +204,32 @@
                 lockBtn.addEventListener("click", () => {
                     this.plannedEntryData();
                 });
+
+                logoutBtn.addEventListener("click", () => {
+                    let question = confirm("Are you sure you want logout? ");
+                    if (question === true) {
+                        let id = document.getElementById("ID").value;
+                        op = 'LogOut';
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', this.linkToHomePage + '/login/?operation=' + op, false);
+                        xhr.setRequestHeader('Key', this.uniqueKey);
+                        xhr.send();
+
+                        if (xhr.status == 200) {
+                            if (xhr.responseText === "logout was successful") {
+                                alert('We hope for a while, bye!');
+                                location.href = this.linkToHomePage;
+                            } else if (xhr.responseText === "logout is not possible since you are not registered to the registration page !!!") {
+                                alert(xhr.responseText);
+                                location.href = this.linkToHomePage;
+                            }
+
+                        }
+                        else if (xhr.status != 200) { alert(xhr.status + ': ' + xhr.statusText); }
+                    }
+                })
+
             }
 
             plannedEntryData() {
@@ -222,7 +250,7 @@
                     }
                     else {
                         alert("The security service asked me to send you BYE, the password is not correct!");
-                        location.href = 'http://192.168.1.100:1080';
+                        location.href = this.linkToHomePage;
                     }
 
                 }
@@ -371,6 +399,13 @@
                     style="font-size: large; position: absolute; top:250px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
                     ;>
                 </div>`
+                    +
+                    `<div style="position: absolute; left:80%; width:165px; height: 70px; top:65%; ">
+                    <input id="logout" ; type="button" ; value="LogOut" ;
+                    style="font-size: large; position: absolute; top:10px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+                    ;>   
+                </div>`
+
                 return commandBtns;
             }
         }

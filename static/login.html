@@ -104,7 +104,7 @@
             constructor(view) {
                 document.getElementById("placeRegistration").style.display = "none";
                 this.initUI(view);
-                
+
 
             }
 
@@ -117,13 +117,11 @@
                 var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
                 for (var i = length; i > 0; --i) {
-                    result += ((i & 1) && n.charAt(p) ? + n.charAt(p)  : chars[Math.floor(Math.random() * chars.length)]);
+                    result += ((i & 1) && n.charAt(p) ? + n.charAt(p) : chars[Math.floor(Math.random() * chars.length)]);
                     if (i & 1) p++;
                 };
                 return result;
             }
-
-
             initUI(view) {
 
                 this.registLogin = view.registlogin;
@@ -131,7 +129,7 @@
 
                 this.logLogin = view.loglogin;
                 this.logPassword = view.logpassword;
-
+                const key = this.uniqueKey();
                 this.localPath = location.href;
 
                 view.registry.addEventListener("click", () => {
@@ -143,46 +141,41 @@
                     const pass = this.logPassword.value;
                     const id = 'logIn';
                     const authenticationData = log + encodeURIComponent(' ') + pass;
+                    const unqKey = this.uniqueKey();
 
                     var xhr = new XMLHttpRequest();
 
-                    xhr.open('GET', '/login/?login=' + log + '&password=' + pass + '&id=' + id, false);
-                    xhr.send();
-
-                    if (xhr.status != 200) {
-                        alert(xhr.status + ': ' + xhr.statusText);
-                    } else {
-                        if ('login successful' === xhr.responseText) {
-                            document.getElementById("placeRegistration").style.display = "none";
-
-                            localStorage.setItem("userName", log);
-
-                            location.href = location.href + 'home.html';
+                    xhr.open('POST', '/login/?login=' + log + '&password=' + pass + '&id=' + id, true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
+                    xhr.setRequestHeader('Key', '' + encodeURIComponent(unqKey));
+                    xhr.send('login=' + log + '&password=' + pass + '&id=' + id);
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState == 4) { // Ответ пришёл
+                            if (xhr.status == 200) { // Сервер вернул код 200 (что хорошо)
+                                if ('login successful' === xhr.responseText) {
+                                    document.getElementById("placeRegistration").style.display = "none";
+                                    localStorage.setItem("unqk", unqKey);
+                                    localStorage.setItem("userName", log);
+                                    location.href = location.href + 'home.html';
+                                } else {
+                                    alert(xhr.responseText);//Если пароль не верный или такого не существует
+                                }
+                            } else {
+                                alert(xhr.status + ': ' + xhr.statusText);//Если код не 200
+                            }
                         }
-                        else {
-                            alert(xhr.responseText);
-                        }
-
                     }
-
-
                 })
 
 
                 view.saveInformation.addEventListener("click", () => {
 
-                    alert(location.href);
-                    alert(location.pathname);
                     const login = this.registLogin.value;
                     const password = this.registPassword.value;
                     const id = 'registration';
                     const authenticationData = login + encodeURIComponent(' ') + password;
 
                     var xhr = new XMLHttpRequest();
-
-                    const key = this.uniqueKey();
-
-
                     alert('key: ' + key + '\n' + 'keyEncode: ' + encodeURIComponent(key));
 
                     xhr.open('POST', '/login/?login=' + login + '&password=' + password + '&id=' + id, true);
@@ -191,7 +184,7 @@
                     xhr.send('login=' + login + '&password=' + password + '&id=' + id);
 
                     xhr.onreadystatechange = () => { // Ждём ответа от сервера
-                        alert('Ответ пришел');
+                        // alert('Ответ пришел');
                         if (xhr.readyState == 4) { // Ответ пришёл
                             if (xhr.status == 200) { // Сервер вернул код 200 (что хорошо)
                                 if ('Registration completed successfully!' === xhr.responseText) {
