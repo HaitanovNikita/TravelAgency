@@ -18,11 +18,13 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private static PersonDaoMySql personDaoMySql ;
+    private final static String PATH_FILE = "C:\\Users\\User\\IdeaProjects\\TravelAgencyV2\\static\\";
+    private static PersonDaoMySql personDaoMySql;
     private static ArrayList<Person> pp;
     static HashMap<String, String> mapLoginDetails = new HashMap<>();
+    static ArrayList<String> arrayListUniqueKeys = new ArrayList<>();
 
-    public Server(){
+    public Server() {
         personDaoMySql = new PersonDaoMySql();
         starting();
     }
@@ -53,12 +55,27 @@ public class Server {
             String query = exchange.getRequestURI().getQuery();
             System.out.println("PostClientHandler");
             if (query != null) {
+                System.out.println("Key post: " + exchange.getRequestHeaders().get("Key"));
+                if (arrayListUniqueKeys.contains(exchange.getRequestHeaders().get("Key").toString()) == true) {
+                    System.out.println("Порядок! Запрос прислал наш человек");
+                    String[] arrDataPerson = query.split("id=|&fname=|&lname=|&age=|&operation=");
+                    System.out.println(Arrays.toString(arrDataPerson));
+                    Person person = splitArrayIntoPerson(arrDataPerson);
+                    String operation = arrDataPerson[5];
+                    performingAnOperation(operation, person);
 
-                String[] arrDataPerson = query.split("id=|&fname=|&lname=|&age=|&operation=");
-                System.out.println(Arrays.toString(arrDataPerson));
-                Person person = splitArrayIntoPerson(arrDataPerson);
-                String operation = arrDataPerson[5];
-                performingAnOperation(operation,person);
+                } else {
+                    System.out.println(" Запрос отправил неизвестный сервуру человек!\n Отправляю на страницу регистрации! ");
+                    String nameFile = "login.html";
+                    String answer = readFile(nameFile);
+
+                    if (answer.equals("file not found")) {
+                        sendResponseHeaders(404, "", exchange);
+                    } else {
+                        sendResponseHeaders(403, answer, exchange);
+                    }
+                    return;
+                }
 
             }
             addCors(exchange);
@@ -67,41 +84,50 @@ public class Server {
             os.close();
         }
 
-        private Person splitArrayIntoPerson(String[] arrDataPerson){
+        private Person splitArrayIntoPerson(String[] arrDataPerson) {
 
             int id = Integer.valueOf(arrDataPerson[1]);
             String fname = arrDataPerson[2];
             String lname = arrDataPerson[3];
             int age = Integer.valueOf(arrDataPerson[4]);
 
-            return new Person(id,fname,lname,age);
+            return new Person(id, fname, lname, age);
         }
-        private void performingAnOperation(String operation,Person person){
 
-            switch(operation){
+        private void performingAnOperation(String operation, Person person) {
+
+            switch (operation) {
                 case "delete":
-                    try{
+                    try {
                         personDaoMySql.delete(person.id);
-                        System.out.println("operation: delete, person: "+person.toString());
-                    } catch (SQLException e) {e.printStackTrace();}
+                        System.out.println("operation: delete, person: " + person.toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "update":
-                    try{
+                    try {
                         personDaoMySql.update(person);
-                        System.out.println("operation: update, person: "+person.toString());
-                    } catch (SQLException e) {e.printStackTrace();}
+                        System.out.println("operation: update, person: " + person.toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "create":
-                    try{
+                    try {
                         personDaoMySql.create(person);
-                        System.out.println("operation: create, person: "+person.toString());
-                    } catch (SQLException e) {e.printStackTrace();}
+                        System.out.println("operation: create, person: " + person.toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
-                    try{
+                    try {
                         personDaoMySql.read();
-                        System.out.println("default oper: read, operation: "+operation);
-                    } catch (SQLException e) {e.printStackTrace();}
+                        System.out.println("default oper: read, operation: " + operation);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }
@@ -110,15 +136,27 @@ public class Server {
     static class GetClientHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            System.out.println("GetClientHandler");
-            String persons ="";
+//            System.out.println("GetClientHandler");
+//            System.out.println(
+//                "RequestMethod: "+exchange.getRequestMethod()+'\n'
+//                    +"getHttpContext():"+exchange.getHttpContext()+"\n"
+//                    +"Protocol: "+exchange.getProtocol()+"\n"
+//                    +"getPrincipal(): "+exchange.getPrincipal()+"\n"
+//                    +"getRequestHeaders() User-Agent: "+exchange.getRequestHeaders().get("User-Agent")+"\n"
+//                    +"getLocalAddress(): "+exchange.getLocalAddress()+"\n"
+//                    +"getResponseHeaders(): "+exchange.getResponseHeaders()+"\n"
+//                    +"getHttpContext(): "+exchange.getHttpContext()+"\n"
+//                    +"getHttpContext(): "+exchange.getRequestHeaders()+"\n"
+//            );
+
+            String persons = "";
 
             try {
-                 pp = personDaoMySql.read();
-                for(Person p : pp){
-                    persons+=p.id+" "+p.fname+" "+p.lname+" "+p.age+"\n";
+                pp = personDaoMySql.read();
+                for (Person p : pp) {
+                    persons += p.id + " " + p.fname + " " + p.lname + " " + p.age + "\n";
                 }
-                System.out.println(persons);
+//                System.out.println(persons);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -136,17 +174,29 @@ public class Server {
         private String answer = "";
         private String login = "";
         private String password = "";
+        private String uniqueKey = "";
 
         @Override
         public void handle(HttpExchange exchange) throws IOException {
+
+            System.out.println("RequestMethod: " + exchange.getRequestMethod() + '\n'
+                    + "getRequestHeaders() User-Agent: " + exchange.getRequestHeaders().get("User-Agent") + "\n"
+            );
+            System.out.println("Key: " + exchange.getRequestHeaders().get("Key"));
+
             String query = exchange.getRequestURI().getQuery();
+
             if (query != null) {
                 String[] arrQuery = query.split("&password=|login=|&id=");
                 String id = arrQuery[3];
                 login = arrQuery[1];
                 password = arrQuery[2];
+                uniqueKey = exchange.getRequestHeaders().get("Key").toString();
+                System.out.println("Registration data: " + id + " " + login + " " + password);
                 checkID(id);
             }
+
+
             System.out.println("answer about login: " + answer);
             Server.addCors(exchange);
             exchange.sendResponseHeaders(200, answer.getBytes().length);
@@ -171,16 +221,19 @@ public class Server {
                 answer = "Customer with such data does not exist, register!";
             }
         }
+
         private void registration() {
             String value = "login:" + login + " password:" + password;
-            if (mapLoginDetails.get(login) == null) {
+            if (mapLoginDetails.get(login) == null && arrayListUniqueKeys.contains(uniqueKey) == false) {
                 mapLoginDetails.put(login, value);
+                arrayListUniqueKeys.add(uniqueKey);
                 answer = "Registration completed successfully!";
             } else {
                 answer = "A user with this login already exists, select something else.";
             }
             System.out.println(answer);
         }
+
         private void checkID(String id) {
             switch (id) {
                 case "registration":
@@ -204,6 +257,7 @@ public class Server {
             return answer.equals(that.answer) &&
                     login.equals(that.login);
         }
+
         @Override
         public int hashCode() {
             return Objects.hash(answer, login);
@@ -211,8 +265,6 @@ public class Server {
     }
 
     static class StaticHandler implements HttpHandler {
-
-        private final static String PATH_FILE = "C:\\Users\\User\\IdeaProjects\\TravelAgencyV2\\static\\";
 
         String answer = "";
         String nameFile = "";
@@ -225,6 +277,7 @@ public class Server {
             StaticHandler that = (StaticHandler) o;
             return Objects.equals(query, that.query);
         }
+
         @Override
         public int hashCode() {
             return Objects.hash(query);
@@ -241,6 +294,7 @@ public class Server {
                 String[] strQuery = query.split("/");
                 nameFile = strQuery[1];
                 answer = readFile(nameFile);
+
             } else if (query.equals("/")) {
                 System.out.println("query = null");
                 nameFile = "login.html";
@@ -256,34 +310,6 @@ public class Server {
         }
 
 
-        private void sendResponseHeaders(int codeAnswer, String answer, HttpExchange exchange) throws IOException {
-            exchange.sendResponseHeaders(codeAnswer, answer.getBytes().length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(answer.getBytes());
-            os.close();
-        }
-
-        private String readFile(String nameFile) {
-            String fileСontents = "";
-
-            File f = new File(PATH_FILE + nameFile);
-            if (!(f.exists() && !f.isDirectory())) {
-                fileСontents = fileСontents = "file not found";
-                return fileСontents;
-            }
-
-            try (FileReader reader = new FileReader(PATH_FILE + nameFile)) {
-                int c;
-                while ((c = reader.read()) != -1) {
-                    fileСontents += (char) c;
-                }
-
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-
-            }
-            return fileСontents;
-        }
     }
 
     static void addCors(HttpExchange exchange) {
@@ -291,4 +317,32 @@ public class Server {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
     }
 
+    private static String readFile(String nameFile) {
+        String fileСontents = "";
+
+        File f = new File(PATH_FILE + nameFile);
+        if (!(f.exists() && !f.isDirectory())) {
+            fileСontents = fileСontents = "file not found";
+            return fileСontents;
+        }
+
+        try (FileReader reader = new FileReader(PATH_FILE + nameFile)) {
+            int c;
+            while ((c = reader.read()) != -1) {
+                fileСontents += (char) c;
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+
+        }
+        return fileСontents;
     }
+
+    private static void sendResponseHeaders(int codeAnswer, String answer, HttpExchange exchange) throws IOException {
+        exchange.sendResponseHeaders(codeAnswer, answer.getBytes().length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(answer.getBytes());
+        os.close();
+    }
+}

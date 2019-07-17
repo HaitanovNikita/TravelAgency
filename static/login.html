@@ -17,9 +17,9 @@
             /* Левый нижний угол */
             padding: 10px;
             /* Поля вокруг текста */
-            background:rgb(23,33,43);
+            background: rgb(23, 33, 43);
             /* Цвет фона */
-            color: rgb(78,128,174);
+            color: rgb(78, 128, 174);
             /* Цвет текста */
             width: 100%;
             /* Ширина слоя */
@@ -27,18 +27,18 @@
     </style>
 
     <form id="form1" method="POST">
-            <b style="font-size: 13pt; position: absolute; top:10px; left:5px; color:rgb(23,33,43);"></b>
+        <b style="font-size: 13pt; position: absolute; top:10px; left:5px; color:rgb(23,33,43);"></b>
 
 
-            <input id="registry" ; type="button" ; value="Registry" ;
-                style="font-size: large; position: absolute; top:350px; left:520px; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
-                ;>
+        <input id="registry" ; type="button" ; value="Registry" ;
+            style="font-size: large; position: absolute; top:350px; left:520px; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
+            ;>
 
-            <input id="login" ; type="button" ; value="LogIn" ;
-                style="font-size: large; position: absolute; top:350px; left:720px; width: 150px; height: 50px;background: rgb(23,33,43); color:rgb(78,128,174)"
-                ;>
+        <input id="login" ; type="button" ; value="LogIn" ;
+            style="font-size: large; position: absolute; top:350px; left:720px; width: 150px; height: 50px;background: rgb(23,33,43); color:rgb(78,128,174)"
+            ;>
 
-          
+
 
         <div id="placeRegistration"
             style="position: relative; top:80px; left:30px; width:350px; height: 400px; background: rgb(23,33,43);">
@@ -46,7 +46,8 @@
             <b style="font-size: 13pt; position: absolute; top:10px; left:15px; color:rgb(78,128,174)">Enter your
                 nickname(this will be your login.)</b>
 
-            <div style="position: relative; left:10px; width:330px; height: 40px; top:45px; background: rgb(47,110,165);">
+            <div
+                style="position: relative; left:10px; width:330px; height: 40px; top:45px; background: rgb(47,110,165);">
                 <input id="registlogin" type="text" value=""
                     style="position: absolute; top:5px; left:10px; width: 305px; height: 25px;background: #fff;color:darkslategrey">
             </div>
@@ -54,7 +55,8 @@
             <b style="font-size: 13pt; position: absolute; top:110px; left:85px; color:rgb(78,128,174)">Create your
                 password</b>
 
-            <div style="position: relative; left:10px; width:330px; height: 40px; top:110px; background: rgb(47,110,165);">
+            <div
+                style="position: relative; left:10px; width:330px; height: 40px; top:110px; background: rgb(47,110,165);">
                 <input id="registpassword" type="text" value=""
                     style="position: absolute; top:5px; left:10px; width: 305px; height: 25px;background: #fff;color:darkslategrey">
             </div>
@@ -72,7 +74,8 @@
             <b style="font-size: 13pt; position: absolute; top:10px; left:101px; color:rgb(78,128,174)">
                 Enter your login</b>
 
-            <div style="position: relative; left:10px; width:330px; height: 40px; top:45px; background:  rgb(47,110,165);">
+            <div
+                style="position: relative; left:10px; width:330px; height: 40px; top:45px; background:  rgb(47,110,165);">
                 <input id="loglogin" type="text" value=""
                     style="position: absolute; top:5px; left:10px; width: 305px; height: 25px;background: #fff;color:darkslategrey">
             </div>
@@ -80,13 +83,14 @@
             <b style="font-size: 13pt; position: absolute; top:110px; left:85px; color:rgb(78,128,174)">
                 Enter your password</b>
 
-            <div style="position: relative; left:10px; width:330px; height: 40px; top:110px; background:  rgb(47,110,165);">
+            <div
+                style="position: relative; left:10px; width:330px; height: 40px; top:110px; background:  rgb(47,110,165);">
                 <input id="logpassword" type="text" value=""
                     style="position: absolute; top:5px; left:10px; width: 305px; height: 25px;background: #fff;color:darkslategrey">
             </div>
         </div>
     </form>
-    
+
 
     <div id="footer">&copy; HN Haitanov Nikita </div>
 
@@ -95,93 +99,120 @@
     <script type="text/javascript">
 
 
-        class RegistryInSystem{
+        class RegistryInSystem {
 
-            constructor(view){
+            constructor(view) {
                 document.getElementById("placeRegistration").style.display = "none";
                 this.initUI(view);
+                
 
             }
-            
-            initUI(view){
-               
-            this.registLogin = view.registlogin;
-            this.registPassword = view.registpassword;
-            
-            this.logLogin = view.loglogin;
-            this.logPassword = view.logpassword;
 
-            this.localPath=location.href;
+            uniqueKey() {
+                var d = new Date().valueOf();
+                var n = d.toString();
+                var result = '';
+                var length = 32;
+                var p = 0;
+                var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-            view.registry.addEventListener("click",()=>{
-                document.getElementById("placeRegistration").style.display = "";
-            })
+                for (var i = length; i > 0; --i) {
+                    result += ((i & 1) && n.charAt(p) ? + n.charAt(p)  : chars[Math.floor(Math.random() * chars.length)]);
+                    if (i & 1) p++;
+                };
+                return result;
+            }
 
-            view.login.addEventListener("click",()=>{
-               const log = this.logLogin.value;
-               const pass = this.logPassword.value;
-               const id = 'logIn';
-               const authenticationData=log+encodeURIComponent(' ')+pass;
 
-               var xhr = new XMLHttpRequest();
-                            
-                            xhr.open('GET', this.localPath+':3113/login/?login='+log+'&password='+pass+'&id='+id, false);
-                            xhr.send();
-                             
-                            if (xhr.status != 200) {
-                            alert(xhr.status + ': ' + xhr.statusText); 
-                            } else {
-                                if('login successful'===xhr.responseText){
+            initUI(view) {
+
+                this.registLogin = view.registlogin;
+                this.registPassword = view.registpassword;
+
+                this.logLogin = view.loglogin;
+                this.logPassword = view.logpassword;
+
+                this.localPath = location.href;
+
+                view.registry.addEventListener("click", () => {
+                    document.getElementById("placeRegistration").style.display = "";
+                })
+
+                view.login.addEventListener("click", () => {
+                    const log = this.logLogin.value;
+                    const pass = this.logPassword.value;
+                    const id = 'logIn';
+                    const authenticationData = log + encodeURIComponent(' ') + pass;
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', '/login/?login=' + log + '&password=' + pass + '&id=' + id, false);
+                    xhr.send();
+
+                    if (xhr.status != 200) {
+                        alert(xhr.status + ': ' + xhr.statusText);
+                    } else {
+                        if ('login successful' === xhr.responseText) {
+                            document.getElementById("placeRegistration").style.display = "none";
+
+                            localStorage.setItem("userName", log);
+
+                            location.href = location.href + 'home.html';
+                        }
+                        else {
+                            alert(xhr.responseText);
+                        }
+
+                    }
+
+
+                })
+
+
+                view.saveInformation.addEventListener("click", () => {
+
+                    alert(location.href);
+                    alert(location.pathname);
+                    const login = this.registLogin.value;
+                    const password = this.registPassword.value;
+                    const id = 'registration';
+                    const authenticationData = login + encodeURIComponent(' ') + password;
+
+                    var xhr = new XMLHttpRequest();
+
+                    const key = this.uniqueKey();
+
+
+                    alert('key: ' + key + '\n' + 'keyEncode: ' + encodeURIComponent(key));
+
+                    xhr.open('POST', '/login/?login=' + login + '&password=' + password + '&id=' + id, true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
+                    xhr.setRequestHeader('Key', '' + encodeURIComponent(key));
+                    xhr.send('login=' + login + '&password=' + password + '&id=' + id);
+
+                    xhr.onreadystatechange = () => { // Ждём ответа от сервера
+                        alert('Ответ пришел');
+                        if (xhr.readyState == 4) { // Ответ пришёл
+                            if (xhr.status == 200) { // Сервер вернул код 200 (что хорошо)
+                                if ('Registration completed successfully!' === xhr.responseText) {
                                     document.getElementById("placeRegistration").style.display = "none";
 
-                                    localStorage.setItem("AuthenticationData",authenticationData);
-                                    localStorage.setItem("userName", log);
-                                    
-                                    location.href=this.localPath+':1080/?home.html';
-                                }
-                                else{
-                                    alert(xhr.responseText);
-                                }
-                            
-                            }
-
-
-            })
-
-
-            view.saveInformation.addEventListener("click",()=>{
-                
-                alert(location.href);
-                alert(location.pathname);
-                const login = this.registLogin.value;
-                const password = this.registPassword.value;
-                const id = 'registration';
-                const authenticationData=login+encodeURIComponent(' ')+password;
-
-                var xhr = new XMLHttpRequest();
-                            
-                            xhr.open('GET', '/login/?login='+login+'&password='+password+'&id='+id, false);
-                            xhr.send();
-
-                            if (xhr.status != 200) {
-                            alert(xhr.status + ': ' + xhr.statusText); 
-                            } else {
-
-                                if('Registration completed successfully!'===xhr.responseText){
-                                    document.getElementById("placeRegistration").style.display = "none";
-                                    localStorage.setItem("AuthenticationData",authenticationData);
-
+                                    localStorage.setItem("unqk", key);
                                     localStorage.setItem("userName", login);
-                                
-                                    location.href='http://192.168.1.100:1080/home.html';
+                                    location.href = location.href + 'home.html';
                                 }
-                                else if('A user with this login already exists, select something else.'===xhr.responseText){
+                                else if ('A user with this login already exists, select something else.' === xhr.responseText) {
                                     alert(xhr.responseText);
                                 }
-                            this.registLogin.value = xhr.responseText + '\n';
+                                this.registLogin.value = xhr.responseText + '\n';
+
+                            } else {
+                                alert(xhr.status + ': ' + xhr.statusText);//если код не 200   
                             }
-                                 
-            })
+                        }
+                    };
+
+                })
             }
         }
 

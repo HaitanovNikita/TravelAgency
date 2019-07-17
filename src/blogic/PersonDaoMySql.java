@@ -20,7 +20,7 @@ public class PersonDaoMySql implements iPersonDao
 				"(" + Constant.FIELDS.ID + "," + Constant.FIELDS.FNAME + ", " + 
 				Constant.FIELDS.LNAME + ", " + Constant.FIELDS.AGE + ") " +
 				" VALUES(" + p.id + ", '" + p.fname + "', '" + p.lname + "', " + p.age + ");";
-		System.out.println("query: "+query);
+//		System.out.println("query: "+query);
 		int  rs = stmt.executeUpdate(query);		 
 		stmt.close();
 		conn.close();	 	

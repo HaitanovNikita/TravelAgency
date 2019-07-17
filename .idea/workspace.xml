@@ -16,23 +16,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="79" column="77" selection-start-line="79" selection-start-column="77" selection-end-line="79" selection-end-column="77" />
+            <state relative-caret-position="-404">
+              <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+              <folding>
+                <element signature="method#update#0;class#PersonDaoMySql#0" />
+                <element signature="method#delete#0;class#PersonDaoMySql#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="121" column="38" lean-forward="true" selection-start-line="121" selection-start-column="38" selection-end-line="121" selection-end-column="38" />
+            <state relative-caret-position="71">
+              <caret line="81" column="48" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
               <folding>
-                <element signature="method#splitArrayIntoPerson#0;class#PostClientHandler#0;class#Server#0" />
+                <element signature="method#Server#0;class#Server#0" />
+                <element signature="method#starting#0;class#Server#0" />
                 <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
+                <element signature="class#GetClientHandler#0;class#Server#0" />
+                <element signature="e#4121#4174#0" />
                 <element signature="class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#handle#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
@@ -40,9 +47,9 @@
                 <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />
-                <element signature="method#sendResponseHeaders#0;class#StaticHandler#0;class#Server#0" />
-                <element signature="method#readFile#0;class#StaticHandler#0;class#Server#0" />
                 <element signature="method#addCors#0;class#Server#0" />
+                <element signature="method#readFile#0;class#Server#0" />
+                <element signature="method#sendResponseHeaders#0;class#Server#0" />
               </folding>
             </state>
           </provider>
@@ -51,29 +58,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blogic/Person.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+            <state relative-caret-position="527">
+              <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/blogic/iPersonDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/blogic/Constant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -93,14 +82,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/Main.java" />
-        <option value="$PROJECT_DIR$/src/blogic/Constant.java" />
         <option value="$PROJECT_DIR$/src/blogic/iPersonDao.java" />
-        <option value="$PROJECT_DIR$/src/blogic/PersonDaoMySql.java" />
+        <option value="$PROJECT_DIR$/src/blogic/Constant.java" />
         <option value="$PROJECT_DIR$/src/blogic/Server.java" />
+        <option value="$PROJECT_DIR$/src/blogic/PersonDaoMySql.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="333" />
     <option name="y" value="24" />
     <option name="width" value="697" />
@@ -111,6 +100,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -123,6 +113,12 @@
               <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
               <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="blogic" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
@@ -146,14 +142,15 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/mysql-connector-java-5.1.23-bin.jar!/" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -215,14 +212,14 @@
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.113464445" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Learn" order="3" />
-      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.14674735" />
+      <window_info id="Designer" order="1" />
+      <window_info id="Learn" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.32850242" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.7697263" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.048309177" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -237,6 +234,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Structure" order="5" visible="true" weight="0.23071104" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,20 +242,10 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/testUi/Main.java" />
-    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
+    <entry file="file://$PROJECT_DIR$/src/blogic/Constant.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="79" column="77" selection-start-line="79" selection-start-column="77" selection-end-line="79" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/blogic/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="102">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -268,10 +256,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/blogic/Constant.java">
+    <entry file="file://$PROJECT_DIR$/src/blogic/Person.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="527">
+          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -284,11 +275,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="121" column="38" lean-forward="true" selection-start-line="121" selection-start-column="38" selection-end-line="121" selection-end-column="38" />
+        <state relative-caret-position="71">
+          <caret line="81" column="48" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
           <folding>
-            <element signature="method#splitArrayIntoPerson#0;class#PostClientHandler#0;class#Server#0" />
+            <element signature="method#Server#0;class#Server#0" />
+            <element signature="method#starting#0;class#Server#0" />
             <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
+            <element signature="class#GetClientHandler#0;class#Server#0" />
+            <element signature="e#4121#4174#0" />
             <element signature="class#RegistrationClient#0;class#Server#0" />
             <element signature="method#handle#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
@@ -296,9 +290,20 @@
             <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />
-            <element signature="method#sendResponseHeaders#0;class#StaticHandler#0;class#Server#0" />
-            <element signature="method#readFile#0;class#StaticHandler#0;class#Server#0" />
             <element signature="method#addCors#0;class#Server#0" />
+            <element signature="method#readFile#0;class#Server#0" />
+            <element signature="method#sendResponseHeaders#0;class#Server#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-404">
+          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+          <folding>
+            <element signature="method#update#0;class#PersonDaoMySql#0" />
+            <element signature="method#delete#0;class#PersonDaoMySql#0" />
           </folding>
         </state>
       </provider>

@@ -3,7 +3,8 @@
 <html>
 <meta charset="utf-8">
 
-<body bgcolor=rgb(23,33,43);>
+<body onfocus="home.saveData()" ; onkeydown="home.saveData()" ; onmousemove="home.saveData()" ;
+    onclick="home.saveData()" ; bgcolor=rgb(23,33,43);>
     <style type="text/css">
         BODY {
             margin-bottom: 50px;
@@ -74,8 +75,6 @@
     </style>
 
     <form id="form1">
-        
-
     </form>
 
 
@@ -88,17 +87,19 @@
         class Home {
 
             personsStr = "";
-            operation = "";
-
+            timerId = setTimeout(() => { console.log('Прошло 5 минут бездействия!(1)'); this.plannedEntryData(); }, 300000);
+            uniqueKey = localStorage.getItem("unqk");
+            userName = localStorage.getItem("userName");
 
             constructor(view) {
 
+                localStorage.clear();
                 this.initTableUpdates();
                 this.personsStr = this.updateTable();
                 view.innerHTML = this.commandButtons();
                 view.innerHTML += this.addTable();
                 view.innerHTML += this.windowForPersonTransactions();
-                view.innerHTML+= `<b style="  top:1%; left:12%;">Username:`+localStorage.getItem("userName")+`</b>`;
+                view.innerHTML += `<b style="  top:1%; left:81%;">Username:` + this.userName + `</b>`;
                 this.form = view.innerHTML;
                 document.getElementById("FillingPersonForm").style.display = "none";
                 this.onClickForButton();
@@ -126,6 +127,12 @@
                 setInterval(() => { this.updateTable(); }, 3000);
             }
 
+            saveData() {
+                clearTimeout(this.timerId);
+                this.timerId = setTimeout(() => { console.log('Прошло 5 минут бездействия!'); this.plannedEntryData(); }, 300000);
+                console.log('Заходит в метод saveData()');
+            }
+
             onClickForButton() {
                 let op = "";
 
@@ -139,52 +146,86 @@
                 let readBtn = document.getElementById("read");
                 let lockBtn = document.getElementById("lock");
 
-                saveBtn.addEventListener("click", function () {
+                saveBtn.addEventListener("click", () => {
 
-                    let id = document.getElementById("ID").value;
-                    let fname = document.getElementById("fname").value;
-                    let lname = document.getElementById("lname").value;
-                    let age = document.getElementById("age").value;
+                    let question = confirm("Are you sure you want to " + op + " this person?");
+                    if (question === true) {
+                        let id = document.getElementById("ID").value;
+                        let fname = document.getElementById("fname").value;
+                        let lname = document.getElementById("lname").value;
+                        let age = document.getElementById("age").value;
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'http://192.168.1.100:1080/api/post-client/?id=' + id + '&fname=' + fname + '&lname=' + lname + '&age=' + age + '&operation=' + op, false);
-                    xhr.send();
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', '/api/post-client/?id=' + id + '&fname=' + fname + '&lname=' + lname + '&age=' + age + '&operation=' + op, false);
+                        xhr.setRequestHeader('Key', this.uniqueKey);
+                        xhr.send();
 
-                    if (xhr.status != 200) { alert(xhr.status + ': ' + xhr.statusText); }
-                    this.updateTable();
-                    this.clearInputFields();
+                        if (xhr.status == 403) {
+                            alert('Unregistered user, to the registration page!');
+                            location.href = 'http://192.168.1.100:1080';
+                        }
+                        else if (xhr.status != 200) { alert(xhr.status + ': ' + xhr.statusText); }
+
+                    }
+                    document.getElementById("FillingPersonForm").style.display = "none";
                 });
-                cancelBtn.addEventListener("click", function () {
+
+                cancelBtn.addEventListener("click", () => {
                     document.getElementById("FillingPersonForm").style.display = "none";
                     this.clearInputFields();
                 });
-                clearBtn.addEventListener("click", function () {
+
+                clearBtn.addEventListener("click", () => {
                     this.clearInputFields();
                 });
 
-                createBtn.addEventListener("click", function () {
-                    op = this.id;
+                createBtn.addEventListener("click", () => {
+                    op = createBtn.getAttribute("id");
                     document.getElementById("FillingPersonForm").style.display = "";
 
                 });
 
-                updateBtn.addEventListener("click", function () {
-                    op = this.id;
+                updateBtn.addEventListener("click", () => {
+                    op = updateBtn.getAttribute("id");
                     document.getElementById("FillingPersonForm").style.display = "";
                 });
 
-                deleteBtn.addEventListener("click", function () {
-                    op = this.id;
+                deleteBtn.addEventListener("click", () => {
+                    op = deleteBtn.getAttribute("id");
                     document.getElementById("FillingPersonForm").style.display = "";
                 });
 
-                readBtn.addEventListener("click", function () {
-                    updateTable();
+                readBtn.addEventListener("click", () => {
+                    this.updateTable();
                 });
 
-                lockBtn.addEventListener("click", function () {
-                    //написать метод для всплывающего окна с вводом логина и пароля
+                lockBtn.addEventListener("click", () => {
+                    this.plannedEntryData();
                 });
+            }
+
+            plannedEntryData() {
+                var pass = prompt('Security Service! Confirm your password', '');
+                const log = localStorage.getItem("userName");
+                const id = 'logIn';
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', location.pathname + '/login/?login=' + log + '&password=' + pass + '&id=' + id, false);
+                xhr.send();
+
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                } else {
+                    if ('login successful' === xhr.responseText) {
+
+                    }
+                    else {
+                        alert("The security service asked me to send you BYE, the password is not correct!");
+                        location.href = 'http://192.168.1.100:1080';
+                    }
+
+                }
             }
 
             clearInputFields() {
@@ -195,7 +236,8 @@
             }
 
             addTable(arrPersonsStr) {
-              
+
+
                 if (arrPersonsStr != undefined) {
                     var arrayPersons = arrPersonsStr.split('\n');
                     var body = document.querySelector("body"),
@@ -308,7 +350,7 @@
             }
 
             commandButtons() {
-                let commandBtns = ` <div style="position: absolute; left:80%; width:165px; height: 310px; top:17%; ">
+                let commandBtns = ` <div style="position: absolute; left:80%; width:165px; height: 310px; top:7%; ">
 
                 <input id="create" ; type="button" ; value="Create" ;
                     style="font-size: large; position: absolute; top:10px; left:5%; width: 150px; height: 50px; background: rgb(23,33,43); color:rgb(78,128,174)"
@@ -333,7 +375,7 @@
             }
         }
 
-        new Home(document.getElementById("form1"));
+        home = new Home(document.getElementById("form1"));
 
 
     </script>
