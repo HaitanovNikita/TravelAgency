@@ -19,7 +19,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
+            <state relative-caret-position="119">
               <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
               <folding>
                 <element signature="method#update#0;class#PersonDaoMySql#0" />
@@ -32,20 +32,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+            <state relative-caret-position="264">
+              <caret line="187" column="31" lean-forward="true" selection-start-line="187" selection-start-column="31" selection-end-line="187" selection-end-column="31" />
               <folding>
                 <element signature="method#Server#0;class#Server#0" />
                 <element signature="method#starting#0;class#Server#0" />
                 <element signature="class#PostClientHandler#0;class#Server#0" />
                 <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
                 <element signature="class#GetClientHandler#0;class#Server#0" />
-                <element signature="e#4121#4174#0" />
+                <element signature="method#getQuery#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
-                <element signature="e#6582#6673#1" />
                 <element signature="method#registration#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
+                <element signature="e#11242#11243#0" expanded="true" />
                 <element signature="e#11300#11301#0" expanded="true" />
                 <element signature="class#StaticHandler#0;class#Server#0" />
                 <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />
@@ -91,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="333" />
     <option name="y" value="24" />
     <option name="width" value="697" />
@@ -101,50 +101,7 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="blogic" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="Main" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="TravelAgencyV2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TravelAgencyV2" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/mysql-connector-java-5.1.23-bin.jar!/" />
@@ -211,16 +168,16 @@
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.14674735" />
       <window_info id="Designer" order="1" />
       <window_info id="Learn" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" weight="0.32850242" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21256039" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.09500805" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -230,12 +187,13 @@
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32850242" />
+      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.32850242" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Structure" order="5" visible="true" weight="0.14220877" />
+      <window_info anchor="right" id="Structure" order="5" visible="true" weight="0.22844176" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +215,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+          <folding>
+            <element signature="method#update#0;class#PersonDaoMySql#0" />
+            <element signature="method#delete#0;class#PersonDaoMySql#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/blogic/Person.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -274,33 +243,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-          <folding>
-            <element signature="method#update#0;class#PersonDaoMySql#0" />
-            <element signature="method#delete#0;class#PersonDaoMySql#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+        <state relative-caret-position="264">
+          <caret line="187" column="31" lean-forward="true" selection-start-line="187" selection-start-column="31" selection-end-line="187" selection-end-column="31" />
           <folding>
             <element signature="method#Server#0;class#Server#0" />
             <element signature="method#starting#0;class#Server#0" />
             <element signature="class#PostClientHandler#0;class#Server#0" />
             <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
             <element signature="class#GetClientHandler#0;class#Server#0" />
-            <element signature="e#4121#4174#0" />
+            <element signature="method#getQuery#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
-            <element signature="e#6582#6673#1" />
             <element signature="method#registration#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
+            <element signature="e#11242#11243#0" expanded="true" />
             <element signature="e#11300#11301#0" expanded="true" />
             <element signature="class#StaticHandler#0;class#Server#0" />
             <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />

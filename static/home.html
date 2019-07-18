@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 
 <body onfocus="home.saveData()" ; onkeydown="home.saveData()" ; onmousemove="home.saveData()" ;
-    onclick="home.saveData()" ; bgcolor=rgb(23,33,43);>
+      onclick="home.saveData()" ; bgcolor=rgb(23,33,43);>
     <style type="text/css">
         BODY {
             margin-bottom: 50px;
@@ -85,7 +85,7 @@
     <script type="text/javascript">
 
         class Home {
-            linkToHomePage = 'http://192.168.1.100:1080';
+            linkToHomePage = 'http://192.168.0.120:1080';
             personsStr = "";
             timerId = setTimeout(() => { console.log('Прошло 5 минут бездействия!(1)'); this.plannedEntryData(); }, 300000);
             uniqueKey = localStorage.getItem("unqk");

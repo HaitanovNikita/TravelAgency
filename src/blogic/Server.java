@@ -4,10 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -183,10 +180,11 @@ public class Server {
                     + "getRequestHeaders() User-Agent: " + exchange.getRequestHeaders().get("User-Agent") + "\n"
             );
             System.out.println("Key: " + exchange.getRequestHeaders().get("Key"));
-            String query = exchange.getRequestURI().getQuery();
+//          String query = exchange.getRequestURI().getQuery();
+            String query = getQuery(exchange, "");
 
             if (query != null) {
-                String[] arrQuery = query.contains("password")==true?query.split("&password=|login=|&id="):query.split("operation=");
+                String[] arrQuery = query.contains("password") == true ? query.split("&password=|login=|&id=") : query.split("operation=");
                 String id = "";
                 System.out.println("ArrQuery: " + Arrays.toString(arrQuery));
                 if (arrQuery.length > 2) {
@@ -198,7 +196,6 @@ public class Server {
                 }
                 uniqueKey = exchange.getRequestHeaders().get("Key").toString();
                 System.out.println("Registration data: login: " + login + " pass: " + password + " key: " + uniqueKey + " id: " + id);
-//                System.out.println("Registration data: " + id + " " + login + " " + password);
                 checkID(id);
             }
 
@@ -208,6 +205,19 @@ public class Server {
             OutputStream os = exchange.getResponseBody();
             os.write(answer.getBytes());
             os.close();
+        }
+
+        private String getQuery(HttpExchange exchange, String query) throws IOException {
+            InputStream inputstream = exchange.getRequestBody();
+            InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
+            BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
+            String string = "";
+
+            while ((string = bufferedreader.readLine()) != null) {
+                query += string;
+            }
+            System.out.println("Data person: " + query);
+            return query;
         }
 
         private void logIn() {
@@ -240,12 +250,12 @@ public class Server {
             System.out.println(answer);
         }
 
-        private void logOut(){
-            if(arrayListUniqueKeys.contains(uniqueKey)==true){
+        private void logOut() {
+            if (arrayListUniqueKeys.contains(uniqueKey) == true) {
                 arrayListUniqueKeys.remove(uniqueKey);
-                answer="logout was successful";
-            }else{
-                answer="logout is not possible since you are not registered to the registration page !!!";
+                answer = "logout was successful";
+            } else {
+                answer = "logout is not possible since you are not registered to the registration page !!!";
             }
         }
 
