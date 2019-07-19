@@ -19,10 +19,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+            <state relative-caret-position="905">
+              <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
               <folding>
-                <element signature="method#update#0;class#PersonDaoMySql#0" />
                 <element signature="method#delete#0;class#PersonDaoMySql#0" />
               </folding>
             </state>
@@ -32,24 +31,28 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="187" column="31" lean-forward="true" selection-start-line="187" selection-start-column="31" selection-end-line="187" selection-end-column="31" />
+            <state relative-caret-position="328">
+              <caret line="402" column="52" selection-start-line="402" selection-start-column="52" selection-end-line="402" selection-end-column="52" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#Server#0;class#Server#0" />
                 <element signature="method#starting#0;class#Server#0" />
-                <element signature="class#PostClientHandler#0;class#Server#0" />
-                <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
-                <element signature="class#GetClientHandler#0;class#Server#0" />
                 <element signature="method#getQuery#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#registration#0;class#RegistrationClient#0;class#Server#0" />
+                <element signature="method#logOut#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
+                <element signature="method#setCookie#0;class#RegistrationClient#0;class#Server#0" />
                 <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
-                <element signature="e#11242#11243#0" expanded="true" />
-                <element signature="e#11300#11301#0" expanded="true" />
                 <element signature="class#StaticHandler#0;class#Server#0" />
                 <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />
+                <element signature="method#handle#0;class#StaticHandler#0;class#Server#0" />
                 <element signature="method#addCors#0;class#Server#0" />
+                <element signature="method#refresh#0;class#Server#0" />
+                <element signature="e#13663#13729#0" />
+                <element signature="method#refreshMapUnqKeyDate#0;class#Server#0" />
+                <element signature="method#getRandomKey#0;class#Server#0" />
+                <element signature="method#printTime#0;class#Server#0" />
                 <element signature="method#readFile#0;class#Server#0" />
                 <element signature="method#sendResponseHeaders#0;class#Server#0" />
               </folding>
@@ -91,11 +94,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="333" />
-    <option name="y" value="24" />
-    <option name="width" value="697" />
-    <option name="height" value="745" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-9" />
+    <option name="y" value="125" />
+    <option name="width" value="1382" />
+    <option name="height" value="784" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -177,7 +180,7 @@
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.09500805" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.09822866" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -193,7 +196,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Structure" order="5" visible="true" weight="0.22844176" />
+      <window_info anchor="right" id="Structure" order="5" visible="true" weight="0.20801815" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,17 +218,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-          <folding>
-            <element signature="method#update#0;class#PersonDaoMySql#0" />
-            <element signature="method#delete#0;class#PersonDaoMySql#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blogic/Person.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -243,26 +235,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/blogic/PersonDaoMySql.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="905">
+          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+          <folding>
+            <element signature="method#delete#0;class#PersonDaoMySql#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/blogic/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="187" column="31" lean-forward="true" selection-start-line="187" selection-start-column="31" selection-end-line="187" selection-end-column="31" />
+        <state relative-caret-position="328">
+          <caret line="402" column="52" selection-start-line="402" selection-start-column="52" selection-end-line="402" selection-end-column="52" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#Server#0;class#Server#0" />
             <element signature="method#starting#0;class#Server#0" />
-            <element signature="class#PostClientHandler#0;class#Server#0" />
-            <element signature="method#performingAnOperation#0;class#PostClientHandler#0;class#Server#0" />
-            <element signature="class#GetClientHandler#0;class#Server#0" />
             <element signature="method#getQuery#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#logIn#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#registration#0;class#RegistrationClient#0;class#Server#0" />
+            <element signature="method#logOut#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#checkID#0;class#RegistrationClient#0;class#Server#0" />
+            <element signature="method#setCookie#0;class#RegistrationClient#0;class#Server#0" />
             <element signature="method#equals#0;class#RegistrationClient#0;class#Server#0" />
-            <element signature="e#11242#11243#0" expanded="true" />
-            <element signature="e#11300#11301#0" expanded="true" />
             <element signature="class#StaticHandler#0;class#Server#0" />
             <element signature="method#equals#0;class#StaticHandler#0;class#Server#0" />
+            <element signature="method#handle#0;class#StaticHandler#0;class#Server#0" />
             <element signature="method#addCors#0;class#Server#0" />
+            <element signature="method#refresh#0;class#Server#0" />
+            <element signature="e#13663#13729#0" />
+            <element signature="method#refreshMapUnqKeyDate#0;class#Server#0" />
+            <element signature="method#getRandomKey#0;class#Server#0" />
+            <element signature="method#printTime#0;class#Server#0" />
             <element signature="method#readFile#0;class#Server#0" />
             <element signature="method#sendResponseHeaders#0;class#Server#0" />
           </folding>

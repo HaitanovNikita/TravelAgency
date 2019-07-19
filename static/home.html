@@ -85,11 +85,11 @@
     <script type="text/javascript">
 
         class Home {
-            linkToHomePage = 'http://192.168.0.120:1080';
+            linkToHomePage = 'http://192.168.1.102:1080';
             personsStr = "";
             timerId = setTimeout(() => { console.log('Прошло 5 минут бездействия!(1)'); this.plannedEntryData(); }, 300000);
-            uniqueKey = localStorage.getItem("unqk");
             userName = localStorage.getItem("userName");
+            uniqueKey = localStorage.getItem("unqk");
 
             constructor(view) {
 
@@ -156,10 +156,10 @@
                         let fname = document.getElementById("fname").value;
                         let lname = document.getElementById("lname").value;
                         let age = document.getElementById("age").value;
-
+                        alert("unqKey: "+this.uniqueKey);
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', '/api/post-client/?id=' + id + '&fname=' + fname + '&lname=' + lname + '&age=' + age + '&operation=' + op, false);
-                        xhr.setRequestHeader('Key', this.uniqueKey);
+                        xhr.setRequestHeader("Key",this.uniqueKey);                        
                         xhr.send();
 
                         if (xhr.status == 403) {
@@ -245,7 +245,8 @@
                 if (xhr.status != 200) {
                     alert(xhr.status + ': ' + xhr.statusText);
                 } else {
-                    if ('login successful' === xhr.responseText) {
+                    let arrResponseTextSplit = xhr.responseText.split("&");
+                    if ('login successful' === arrResponseTextSplit[0]) {
 
                     }
                     else {

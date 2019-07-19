@@ -141,19 +141,22 @@
                     const pass = this.logPassword.value;
                     const id = 'logIn';
                     const authenticationData = log + encodeURIComponent(' ') + pass;
-                    const unqKey = this.uniqueKey();
+                    
 
                     var xhr = new XMLHttpRequest();
 
                     xhr.open('POST', '/login/?login=' + log + '&password=' + pass + '&id=' + id, true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
-                    xhr.setRequestHeader('Key', '' + encodeURIComponent(unqKey));
+                    
                     xhr.send('login=' + log + '&password=' + pass + '&id=' + id);
                     xhr.onreadystatechange = () => {
                         if (xhr.readyState == 4) { // Ответ пришёл
                             if (xhr.status == 200) { // Сервер вернул код 200 (что хорошо)
-                                if ('login successful' === xhr.responseText) {
+                                let arrResponseTextSplit = xhr.responseText.split("&");
+                                alert("Ответ от сервера : " + arrResponseTextSplit[0]);
+                                if ('login successful' === arrResponseTextSplit[0]) {
                                     document.getElementById("placeRegistration").style.display = "none";
+                                    let unqKey=arrResponseTextSplit[1]; 
                                     localStorage.setItem("unqk", unqKey);
                                     localStorage.setItem("userName", log);
                                     location.href = location.href + 'home.html';
@@ -167,7 +170,6 @@
                     }
                 })
 
-
                 view.saveInformation.addEventListener("click", () => {
 
                     const login = this.registLogin.value;
@@ -176,21 +178,19 @@
                     const authenticationData = login + encodeURIComponent(' ') + password;
 
                     var xhr = new XMLHttpRequest();
-                    alert('key: ' + key + '\n' + 'keyEncode: ' + encodeURIComponent(key));
 
                     xhr.open('POST', '/login/?login=' + login + '&password=' + password + '&id=' + id, true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем кодировку
-                    xhr.setRequestHeader('Key', '' + encodeURIComponent(key));
                     xhr.send('login=' + login + '&password=' + password + '&id=' + id);
-
                     xhr.onreadystatechange = () => { // Ждём ответа от сервера
                         // alert('Ответ пришел');
                         if (xhr.readyState == 4) { // Ответ пришёл
                             if (xhr.status == 200) { // Сервер вернул код 200 (что хорошо)
-                                if ('Registration completed successfully!' === xhr.responseText) {
+                                let arrResponseTextSplit = xhr.responseText.split("&");
+                                if ('Registration completed successfully!' === arrResponseTextSplit[0]) {
                                     document.getElementById("placeRegistration").style.display = "none";
-
-                                    localStorage.setItem("unqk", key);
+                                    const key = arrResponseTextSplit[1];
+                                    localStorage.setItem("unqk", key );
                                     localStorage.setItem("userName", login);
                                     location.href = location.href + 'home.html';
                                 }

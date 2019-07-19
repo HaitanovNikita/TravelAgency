@@ -1,16 +1,16 @@
 package blogic;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import javax.swing.Timer;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.time.*;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Server {
@@ -19,7 +19,7 @@ public class Server {
     private static PersonDaoMySql personDaoMySql;
     private static ArrayList<Person> pp;
     static HashMap<String, String> mapLoginDetails = new HashMap<>();
-    static ArrayList<String> arrayListUniqueKeys = new ArrayList<>();
+    static HashMap<String, Calendar> mapUnqKeyDate = new HashMap<>();
 
     public Server() {
         personDaoMySql = new PersonDaoMySql();
@@ -40,6 +40,9 @@ public class Server {
 
             server.setExecutor(Executors.newCachedThreadPool());
             server.start();
+
+            refresh();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,13 +53,20 @@ public class Server {
         public void handle(HttpExchange exchange) throws IOException {
 
             String query = exchange.getRequestURI().getQuery();
-            System.out.println("PostClientHandler");
             if (query != null) {
-                System.out.println("Key post: " + exchange.getRequestHeaders().get("Key"));
-                if (arrayListUniqueKeys.contains(exchange.getRequestHeaders().get("Key").toString()) == true) {
+
+                String unqKey = exchange.getRequestHeaders().get("Key").toString();
+                unqKey = unqKey.replace('[', ' ').replace(']', ' ').trim();
+
+                System.out.println("UnqKey: " + unqKey);
+                if (mapUnqKeyDate.get(unqKey) != null) {
                     System.out.println("Порядок! Запрос прислал наш человек");
+                    Calendar calendar = new GregorianCalendar();
+                    System.out.println("Время которое сейчас записано " + mapUnqKeyDate.get(unqKey).get(Calendar.HOUR) + ":" + mapUnqKeyDate.get(unqKey).get(Calendar.MINUTE));
+                    mapUnqKeyDate.get(unqKey).set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 10);
+                    System.out.println("Новое записаное время " + mapUnqKeyDate.get(unqKey).get(Calendar.HOUR) + ":" + mapUnqKeyDate.get(unqKey).get(Calendar.MINUTE));
                     String[] arrDataPerson = query.split("id=|&fname=|&lname=|&age=|&operation=");
-                    System.out.println(Arrays.toString(arrDataPerson));
+
                     Person person = splitArrayIntoPerson(arrDataPerson);
                     String operation = arrDataPerson[5];
                     performingAnOperation(operation, person);
@@ -97,7 +107,6 @@ public class Server {
                 case "delete":
                     try {
                         personDaoMySql.delete(person.id);
-                        System.out.println("operation: delete, person: " + person.toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -105,7 +114,6 @@ public class Server {
                 case "update":
                     try {
                         personDaoMySql.update(person);
-                        System.out.println("operation: update, person: " + person.toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -113,7 +121,6 @@ public class Server {
                 case "create":
                     try {
                         personDaoMySql.create(person);
-                        System.out.println("operation: create, person: " + person.toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -121,7 +128,6 @@ public class Server {
                 default:
                     try {
                         personDaoMySql.read();
-                        System.out.println("default oper: read, operation: " + operation);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -133,19 +139,6 @@ public class Server {
     static class GetClientHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-//            System.out.println("GetClientHandler");
-//            System.out.println(
-//                "RequestMethod: "+exchange.getRequestMethod()+'\n'
-//                    +"getHttpContext():"+exchange.getHttpContext()+"\n"
-//                    +"Protocol: "+exchange.getProtocol()+"\n"
-//                    +"getPrincipal(): "+exchange.getPrincipal()+"\n"
-//                    +"getRequestHeaders() User-Agent: "+exchange.getRequestHeaders().get("User-Agent")+"\n"
-//                    +"getLocalAddress(): "+exchange.getLocalAddress()+"\n"
-//                    +"getResponseHeaders(): "+exchange.getResponseHeaders()+"\n"
-//                    +"getHttpContext(): "+exchange.getHttpContext()+"\n"
-//                    +"getHttpContext(): "+exchange.getRequestHeaders()+"\n"
-//            );
-
             String persons = "";
 
             try {
@@ -153,7 +146,6 @@ public class Server {
                 for (Person p : pp) {
                     persons += p.id + " " + p.fname + " " + p.lname + " " + p.age + "\n";
                 }
-//                System.out.println(persons);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -176,11 +168,6 @@ public class Server {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
 
-            System.out.println("RequestMethod: " + exchange.getRequestMethod() + '\n'
-                    + "getRequestHeaders() User-Agent: " + exchange.getRequestHeaders().get("User-Agent") + "\n"
-            );
-            System.out.println("Key: " + exchange.getRequestHeaders().get("Key"));
-//          String query = exchange.getRequestURI().getQuery();
             String query = getQuery(exchange, "");
 
             if (query != null) {
@@ -194,12 +181,12 @@ public class Server {
                 } else {
                     id = arrQuery[1];
                 }
-                uniqueKey = exchange.getRequestHeaders().get("Key").toString();
+                uniqueKey = getRandomKey();
                 System.out.println("Registration data: login: " + login + " pass: " + password + " key: " + uniqueKey + " id: " + id);
                 checkID(id);
             }
 
-            System.out.println("answer about login: " + answer);
+            System.out.println("answer about RegistrationClient: " + answer);
             Server.addCors(exchange);
             exchange.sendResponseHeaders(200, answer.getBytes().length);
             OutputStream os = exchange.getResponseBody();
@@ -227,9 +214,11 @@ public class Server {
             }
             if (mapLoginDetails.get(login) != null) {
                 String[] arr = mapLoginDetails.get(login).split("login:| password:");//данные из хранилища
-                if (login.equals(arr[1]) && password.equals(arr[2]) && arrayListUniqueKeys.contains(uniqueKey) == false) {
-                    arrayListUniqueKeys.add(uniqueKey);
-                    answer = "login successful";
+                if (login.equals(arr[1]) && password.equals(arr[2]) && mapUnqKeyDate.get(uniqueKey) == null) {
+                    Calendar date = new GregorianCalendar();
+                    printTime(date);
+                    mapUnqKeyDate.put(uniqueKey, date);
+                    answer = "login successful&" + uniqueKey;
                 } else {
                     answer = "Wrong login or password";
                 }
@@ -239,11 +228,13 @@ public class Server {
         }
 
         private void registration() {
-            String value = "login:" + login + " password:" + password;
-            if (mapLoginDetails.get(login) == null && arrayListUniqueKeys.contains(uniqueKey) == false) {
-                mapLoginDetails.put(login, value);
-                arrayListUniqueKeys.add(uniqueKey);
-                answer = "Registration completed successfully!";
+            if (mapLoginDetails.get(login) == null && mapUnqKeyDate.get(uniqueKey) == null) {
+                Calendar date = new GregorianCalendar();
+                date.set(Calendar.MINUTE, date.get(Calendar.MINUTE) + 10);
+                printTime(date);
+                System.out.println("Добавлен ключ в систему: " + uniqueKey);
+                mapUnqKeyDate.put(uniqueKey, date);
+                answer = "Registration completed successfully!&" + uniqueKey;
             } else {
                 answer = "A user with this login already exists, select something else.";
             }
@@ -251,8 +242,8 @@ public class Server {
         }
 
         private void logOut() {
-            if (arrayListUniqueKeys.contains(uniqueKey) == true) {
-                arrayListUniqueKeys.remove(uniqueKey);
+            if (mapUnqKeyDate.get(uniqueKey) != null) {
+                mapUnqKeyDate.remove(uniqueKey);
                 answer = "logout was successful";
             } else {
                 answer = "logout is not possible since you are not registered to the registration page !!!";
@@ -275,6 +266,19 @@ public class Server {
                     break;
             }
 
+        }
+
+        private void setCookie(HttpExchange exchange, String cookie) {
+            List<String> valuesCookie = new ArrayList<>();
+            valuesCookie.add("Key=" + cookie);
+
+            Headers headers = exchange.getResponseHeaders();
+            headers.put("Set-Cookie", valuesCookie);
+
+            Headers headers2 = exchange.getRequestHeaders();
+
+            String test = headers2.get("Cookie").toString();
+            System.out.println("Test: " + test);
         }
 
         @Override
@@ -345,12 +349,63 @@ public class Server {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
     }
 
+    static void refresh() {
+
+        Timer t = new Timer(60000, e -> {
+            refreshMapUnqKeyDate();
+        });
+        t.start();
+
+    }
+
+    static void refreshMapUnqKeyDate() {
+
+        ArrayList<String> keysForDelete = new ArrayList<>();
+        if (mapUnqKeyDate.size() != 0) {
+            System.out.println("В хранилище есть данные!");
+            for (Map.Entry<String, Calendar> entry : mapUnqKeyDate.entrySet()) {
+                Calendar calendar = new GregorianCalendar();
+                System.out.println("время проверки : " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+                if (calendar.after(entry.getValue())) {
+                    keysForDelete.add(entry.getKey());
+                    System.out.println("Время нарушено");
+                    System.out.println("Текущие время : " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+                    System.out.println("Записаные время: " + entry.getValue().get(Calendar.HOUR) + ":" + entry.getValue().get(Calendar.MINUTE));
+
+                } else {
+                    System.out.println("Со временем порядок");
+                }
+            }
+            System.out.println("Размер удаляемой коллекции: " + keysForDelete.size());
+            for (int i = 0; i < keysForDelete.size(); i++) {
+                System.out.println("Key[" + i + "] remove: " + keysForDelete.get(i));
+                mapUnqKeyDate.remove(keysForDelete.get(i));
+            }
+
+        } else {
+            System.out.println("Хранилище пустое!");
+        }
+
+    }
+
+    static String getRandomKey() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
+
+    private static void printTime(Calendar date) {
+        System.out.println("Time registration(hour): "
+                + date.get(Calendar.HOUR) + ":(min) "
+                + date.get(Calendar.MINUTE) + ":(sec) "
+                + date.get(Calendar.SECOND));
+    }
+
     private static String readFile(String nameFile) {
         String fileСontents = "";
 
         File f = new File(PATH_FILE + nameFile);
         if (!(f.exists() && !f.isDirectory())) {
-            fileСontents = fileСontents = "file not found";
+            fileСontents = "file not found";
             return fileСontents;
         }
 
